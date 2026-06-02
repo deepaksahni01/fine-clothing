@@ -1,5 +1,5 @@
 // =====================================================
-// FINE CLOTHING - INDEX.JS
+// FINE CLOTHING - FINAL CLEAN JS (FULL REPLACEMENT)
 // =====================================================
 
 
@@ -7,170 +7,98 @@
 // NAVBAR SCROLL EFFECT
 // =====================================================
 
-const navbar =
-document.querySelector(".navbar");
+const navbar = document.querySelector(".navbar");
 
 window.addEventListener("scroll", () => {
 
-    if(window.scrollY > 50){
+    if (!navbar) return;
 
-        navbar.style.background =
-        "rgba(255,255,255,0.78)";
-
-        navbar.style.boxShadow =
-        "0 10px 35px rgba(0,140,255,0.15)";
-
+    if (window.scrollY > 50) {
+        navbar.style.background = "rgba(255,255,255,0.78)";
+        navbar.style.boxShadow = "0 10px 35px rgba(0,140,255,0.15)";
+    } else {
+        navbar.style.background = "rgba(255,255,255,0.55)";
+        navbar.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)";
     }
-
-    else{
-
-        navbar.style.background =
-        "rgba(255,255,255,0.55)";
-
-        navbar.style.boxShadow =
-        "0 8px 30px rgba(0,0,0,0.08)";
-
-    }
-
 });
 
 
 // =====================================================
-// HERO CONTENT ANIMATION
+// HERO ANIMATION
 // =====================================================
 
-const heroContent =
-document.querySelector(".hero-content");
+const heroContent = document.querySelector(".hero-content");
 
 window.addEventListener("load", () => {
 
-    heroContent.style.opacity = "0";
+    if (!heroContent) return;
 
-    heroContent.style.transform =
-    "translateY(50px)";
+    heroContent.style.opacity = "0";
+    heroContent.style.transform = "translateY(50px)";
 
     setTimeout(() => {
-
-        heroContent.style.transition =
-        "1.2s ease";
-
+        heroContent.style.transition = "1.2s ease";
         heroContent.style.opacity = "1";
-
-        heroContent.style.transform =
-        "translateY(0px)";
-
+        heroContent.style.transform = "translateY(0px)";
     }, 300);
 
 });
 
 
 // =====================================================
-// DROPDOWN MENU
+// HAMBURGER MENU (MOBILE)
 // =====================================================
 
+const hamburger = document.querySelector(".hamburger");
+const navLinks = document.querySelector(".nav-links");
 
-// PRODUCTS
+if (hamburger && navLinks) {
 
-const productBtn =
-document.querySelector(".products-menu");
-
-const productDropdown =
-document.querySelector(".products-dropdown");
-
-productBtn.addEventListener("click", (e) => {
-
-    e.preventDefault();
-
-    productDropdown.classList.toggle(
-    "showDropdown");
-
-});
-
-
-// CATEGORY
-
-const categoryBtn =
-document.querySelector(".category-menu");
-
-const categoryDropdown =
-document.querySelector(".category-dropdown");
-
-categoryBtn.addEventListener("click", (e) => {
-
-    e.preventDefault();
-
-    categoryDropdown.classList.toggle(
-    "showDropdown");
-
-});
-
-
-// CLOSE DROPDOWN OUTSIDE CLICK
-
-window.addEventListener("click", (e) => {
-
-    if(
-    !e.target.closest(".dropdown")
-    ){
-
-        productDropdown.classList.remove(
-        "showDropdown");
-
-        categoryDropdown.classList.remove(
-        "showDropdown");
-
-    }
-
-});
-
-
-// =====================================================
-// PRODUCT CARD HOVER EFFECT
-// =====================================================
-
-const productCards =
-document.querySelectorAll(".product-card");
-
-productCards.forEach(card => {
-
-    card.addEventListener("mouseenter", () => {
-
-        card.style.transform =
-        "translateY(-12px) scale(1.02)";
-
+    hamburger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle("active");
     });
 
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform =
-        "translateY(0px) scale(1)";
-
+    window.addEventListener("click", (e) => {
+        if (!e.target.closest(".nav-links") && !e.target.closest(".hamburger")) {
+            navLinks.classList.remove("active");
+        }
     });
 
-});
+}
 
 
 // =====================================================
-// BUTTON CLICK EFFECT
+// DROPDOWN MENU (HOVER DESKTOP + CLICK MOBILE)
 // =====================================================
 
-const buttons =
-document.querySelectorAll("button");
+const dropdowns = document.querySelectorAll(".dropdown");
 
-buttons.forEach(button => {
+dropdowns.forEach(dropdown => {
 
-    button.addEventListener("click", () => {
+    const menu = dropdown.querySelector("ul");
 
-        button.style.transform =
-        "scale(0.92)";
+    if (!menu) return;
 
-        setTimeout(() => {
+    // Desktop hover
+    dropdown.addEventListener("mouseenter", () => {
+        if (window.innerWidth > 768) {
+            menu.classList.add("showDropdown");
+        }
+    });
 
-            button.style.transform =
-            "scale(1)";
+    dropdown.addEventListener("mouseleave", () => {
+        if (window.innerWidth > 768) {
+            menu.classList.remove("showDropdown");
+        }
+    });
 
-        }, 150);
-
+    // Mobile click
+    dropdown.addEventListener("click", (e) => {
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            menu.classList.toggle("showDropdown");
+        }
     });
 
 });
@@ -180,56 +108,34 @@ buttons.forEach(button => {
 // SCROLL REVEAL ANIMATION
 // =====================================================
 
-const revealElements =
-document.querySelectorAll(
-".category-card, .product-card, .section-title"
+const revealElements = document.querySelectorAll(
+    ".category-card, .product-card, .section-title"
 );
 
-function revealOnScroll(){
+function revealOnScroll() {
 
-    const windowHeight =
-    window.innerHeight;
+    const windowHeight = window.innerHeight;
 
     revealElements.forEach(element => {
 
-        const elementTop =
-        element.getBoundingClientRect().top;
+        const elementTop = element.getBoundingClientRect().top;
 
-        if(elementTop < windowHeight - 100){
+        if (elementTop < windowHeight - 100) {
 
             element.style.opacity = "1";
-
-            element.style.transform =
-            "translateY(0px)";
-
-            element.style.transition =
-            "0.8s ease";
-
+            element.style.transform = "translateY(0px)";
+            element.style.transition = "0.8s ease";
         }
-
     });
-
 }
 
-
-// INITIAL STATE
-
+// initial state
 revealElements.forEach(element => {
-
     element.style.opacity = "0";
-
-    element.style.transform =
-    "translateY(80px)";
-
+    element.style.transform = "translateY(80px)";
 });
 
-
-// RUN FUNCTION
-
-window.addEventListener(
-"scroll",
-revealOnScroll
-);
+window.addEventListener("scroll", revealOnScroll);
 
 
 // =====================================================
@@ -238,51 +144,40 @@ revealOnScroll
 
 setInterval(() => {
 
-    document.body.style.filter =
-    "brightness(1.01)";
+    document.body.style.filter = "brightness(1.01)";
 
     setTimeout(() => {
-
-        document.body.style.filter =
-        "brightness(1)";
-
+        document.body.style.filter = "brightness(1)";
     }, 500);
 
 }, 4000);
 
 
-
-
-
-/* =========================================
-   PRODUCT IMAGE HOVER CHANGE
-========================================= */
+// =====================================================
+// PRODUCT IMAGE CHANGE
+// =====================================================
 
 function changeImage(element) {
 
-    document.getElementById("mainProductImage").src =
-    element.src;
+    const mainImg = document.getElementById("mainProductImage");
 
+    if (mainImg) {
+        mainImg.src = element.src;
+    }
 }
 
 
-/* =========================================
-   SIZE SELECTOR
-========================================= */
+// =====================================================
+// SIZE SELECTOR
+// =====================================================
 
-const sizeButtons =
-document.querySelectorAll(".sizes button");
+const sizeButtons = document.querySelectorAll(".sizes button");
 
 sizeButtons.forEach(button => {
 
     button.addEventListener("click", () => {
 
-        sizeButtons.forEach(btn => {
-
-            btn.classList.remove("active-size");
-
-        });
-
+        sizeButtons.forEach(btn => btn.classList.remove("active-size"));
         button.classList.add("active-size");
 
     });
@@ -290,74 +185,54 @@ sizeButtons.forEach(button => {
 });
 
 
-/* =========================================
-   SCROLL TO TOP BUTTON
-========================================= */
+// =====================================================
+// SCROLL TO TOP BUTTON
+// =====================================================
 
-const scrollBtn =
-document.querySelector(".scroll-top");
+const scrollBtn = document.querySelector(".scroll-top");
 
 window.addEventListener("scroll", () => {
 
-    if(window.scrollY > 300){
+    if (!scrollBtn) return;
 
+    if (window.scrollY > 300) {
         scrollBtn.style.display = "flex";
-
-    }
-
-    else{
-
+    } else {
         scrollBtn.style.display = "none";
-
     }
 
 });
 
 
-/* =========================================
-   BUY NOW BUTTON
-========================================= */
+// =====================================================
+// BUY BUTTON
+// =====================================================
 
-const buyBtn =
-document.querySelector(".buy-btn");
+const buyBtn = document.querySelector(".buy-btn");
 
-if(buyBtn){
-
+if (buyBtn) {
     buyBtn.addEventListener("click", () => {
-
-        alert(
-        "Thank You For Shopping With Fine Clothing ❤️"
-        );
-
+        alert("Thank You For Shopping With Fine Clothing ❤️");
     });
-
 }
 
 
-/* =========================================
-   ADD TO CART BUTTON
-========================================= */
+// =====================================================
+// ADD TO CART BUTTON
+// =====================================================
 
-const cartBtn =
-document.querySelector(".cart-btn");
+const cartBtn = document.querySelector(".cart-btn");
 
-if(cartBtn){
-
+if (cartBtn) {
     cartBtn.addEventListener("click", () => {
-
-        alert(
-        "Product Added To Cart 🛒"
-        );
-
+        alert("Product Added To Cart 🛒");
     });
-
 }
 
 
-
-
-
-
+// =====================================================
+// PRODUCT VIDEO HOVER PLAY
+// =====================================================
 
 const videos = document.querySelectorAll(".hover-video");
 
@@ -369,7 +244,7 @@ videos.forEach(video => {
 
     video.addEventListener("mouseleave", () => {
         video.pause();
-        video.currentTime = 0; // restart from beginning
+        video.currentTime = 0;
     });
 
 });
