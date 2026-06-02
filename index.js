@@ -248,3 +248,29 @@ videos.forEach(video => {
     });
 
 });
+
+
+
+
+const params = new URLSearchParams(window.location.search);
+
+const productId = params.get("id");
+
+fetch("products.json")
+  .then(response => response.json())
+  .then(products => {
+
+    const product = products[productId];
+
+    if (!product) return;
+
+    document.getElementById("productName").textContent =
+      product.name;
+
+    document.getElementById("productPrice").textContent =
+      product.price;
+
+    document.getElementById("productDesc").textContent =
+      product.description;
+
+  });
